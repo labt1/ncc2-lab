@@ -1,0 +1,278 @@
+//cc2 lab
+#include<iostream>
+#include<stdlib.h>
+#include<time.h>
+#include<math.h>
+
+using namespace std;
+
+class point3D{
+	private:
+		double x;
+		double y;
+		double z;
+	
+	public:
+		//constructores
+		point3D(){
+			x=0;
+			y=0;
+			z=0;
+		}
+		
+		point3D(int x1, int y1, int z1){
+			x=x1;
+			y=y1;
+			z=z1;
+		}
+		
+		point3D(int low, int high){
+			srand(time(NULL));
+			x = low + rand() % (high + 1 - low);
+			y = low + rand() % (high + 1 - low);
+			z = low + rand() % (high + 1 - low);
+		}		
+		
+		//metodos de utilidad
+		
+		bool equals(point3D p){
+			return (x == p.x && y == p.y && z == p.z);
+		}
+		
+		bool equals(int x1, int y1, int z1) const {
+			return (x == x1 && y == y1 && z == z1);
+		}
+		
+		void set_point(int x1, int y1, int z1){
+			x=x1;
+			y=y1;
+			z=z1;
+		}
+		
+		void shiftX(int tx){
+			 x += tx; 
+		}
+		
+		void shiftY(int ty) { 
+			y += ty; 
+		}
+		
+		void shiftZ(int tz){ 
+			z += tz; 
+		}
+		
+		void translate (int tx, int ty, int tz) {
+			x += tx;
+			y += ty;
+			z += tz;
+		}
+		
+		double distanceOrigin() {
+			return sqrt(pow((double)x, 2) + pow((double)y, 2) + pow((double)z, 2));
+		}	
+		
+		double distanceToPoint(point3D q) {
+			return sqrt(pow(double(x - q.x), 2) + pow(double(y - q.y), 2) + pow(double(z - q.z),2));
+		}		
+
+		int scalarProduct(point3D q) {
+			return x * q.x + y * q.y + z * q.z;
+		}
+		
+		string whichSpace() { 
+			string cad = "El punto se encuentra en: ";
+			if (equals(0, 0, 0)) cad = "el origen";
+			if (x >= 0) cad = cad + "semiplano derecho, ";
+			else cad = cad + "semiplano izquierdo, ";
+			if (y >= 0) cad = cad + "superior, ";
+			else cad = cad + "inferior, ";
+			if (z >= 0) cad = cad + "y delante.";
+			else cad = cad + "y detrás.";
+			return cad;
+		}
+		
+		bool inBox (int xbox, int ybox, int zbox, int width, int height, int depth) {
+			return (x>=xbox && x<=xbox+width) && (y>ybox && y<=ybox+height) && (z>=zbox && z<=zbox+depth);
+		}
+		
+		bool inSphere(point3D center, int radius) {
+			return distanceToPoint(center) <= radius;
+		}
+		
+		friend ostream& operator << (ostream &o, const point3D p);
+};
+
+		ostream& operator << (ostream &o, const point3D p) {
+    		o << "(" << p.x << " , " << p.y <<" , "<< p.z << ")";
+    		return o;
+		}
+		
+
+int main() {
+	point3D point1, point2(10,-8,9), point3(10,50);
+	//imprimir
+	cout<<"El primer punto es"<<point1<<endl;
+	cout<<"El primer punto es"<<point2<<endl;
+	cout<<"El primer punto es"<<point3<<endl;
+	//cambiar el punto 2 por (9,8,-6)
+	point2.set_point(9,8,-6);
+	//despalzar point 1 en 3, -3, 7 y comprobar si es igual a point 2
+	point1.shiftX(3);
+	point1.shiftY(-3);
+	point1.shiftZ(7);
+	cout<<"El punto es"<<point1.equals(point2)<<endl;	
+	//desplazar point 1 en 6, 11, -13 y generando un point 4
+	point3D point4;
+	point1.translate(6,11,-13);
+	point4=point1;
+	cout<<"El punto es "<<point4.equals(point2)<<endl;
+	//distancias
+	cout<<"La distancia al centro del punto 3 es "<<point3.distanceOrigin()<<endl;
+	cout<<"La distancai entre el punto 1 y el punto 3 es "<<point1.distanceToPoint(point3)<<endl;
+	//producto escalar
+	cout<<"El producto escalar del punto 1 y el punto 2 es "<<point1.scalarProduct(point2)<<endl;
+	//comprobar si esta en la caja
+	cout<<"El punto 2"<<point2.inBox(-12,20,8,24,40,35)<<endl;
+	//comprobar si el punto 1 esta en la esfera
+	point3D center(1,2,5);
+	cout<<"El punto 1"<<point1.inSphere(center, 50);
+	return 0;
+}		#include<iostream>
+#include<stdlib.h>
+#include<time.h>
+#include<math.h>
+
+using namespace std;
+
+class point3D{
+	private:
+		double x;
+		double y;
+		double z;
+	
+	public:
+		//constructores
+		point3D(){
+			x=0;
+			y=0;
+			z=0;
+		}
+		
+		point3D(int x1, int y1, int z1){
+			x=x1;
+			y=y1;
+			z=z1;
+		}
+		
+		point3D(int low, int high){
+			srand(time(NULL));
+			x = low + rand() % (high + 1 - low);
+			y = low + rand() % (high + 1 - low);
+			z = low + rand() % (high + 1 - low);
+		}		
+		
+		//metodos de utilidad
+		
+		bool equals(point3D p){
+			return (x == p.x && y == p.y && z == p.z);
+		}
+		
+		bool equals(int x1, int y1, int z1) const {
+			return (x == x1 && y == y1 && z == z1);
+		}
+		
+		void set_point(int x1, int y1, int z1){
+			x=x1;
+			y=y1;
+			z=z1;
+		}
+		
+		void shiftX(int tx){
+			 x += tx; 
+		}
+		
+		void shiftY(int ty) { 
+			y += ty; 
+		}
+		
+		void shiftZ(int tz){ 
+			z += tz; 
+		}
+		
+		void translate (int tx, int ty, int tz) {
+			x += tx;
+			y += ty;
+			z += tz;
+		}
+		
+		double distanceOrigin() {
+			return sqrt(pow((double)x, 2) + pow((double)y, 2) + pow((double)z, 2));
+		}	
+		
+		double distanceToPoint(point3D q) {
+			return sqrt(pow(double(x - q.x), 2) + pow(double(y - q.y), 2) + pow(double(z - q.z),2));
+		}		
+
+		int scalarProduct(point3D q) {
+			return x * q.x + y * q.y + z * q.z;
+		}
+		
+		string whichSpace() { 
+			string cad = "El punto se encuentra en: ";
+			if (equals(0, 0, 0)) cad = "el origen";
+			if (x >= 0) cad = cad + "semiplano derecho, ";
+			else cad = cad + "semiplano izquierdo, ";
+			if (y >= 0) cad = cad + "superior, ";
+			else cad = cad + "inferior, ";
+			if (z >= 0) cad = cad + "y delante.";
+			else cad = cad + "y detrás.";
+			return cad;
+		}
+		
+		bool inBox (int xbox, int ybox, int zbox, int width, int height, int depth) {
+			return (x>=xbox && x<=xbox+width) && (y>ybox && y<=ybox+height) && (z>=zbox && z<=zbox+depth);
+		}
+		
+		bool inSphere(point3D center, int radius) {
+			return distanceToPoint(center) <= radius;
+		}
+		
+		friend ostream& operator << (ostream &o, const point3D p);
+};
+
+		ostream& operator << (ostream &o, const point3D p) {
+    		o << "(" << p.x << " , " << p.y <<" , "<< p.z << ")";
+    		return o;
+		}
+		
+
+int main() {
+	point3D point1, point2(10,-8,9), point3(10,50);
+	//imprimir
+	cout<<"El primer punto es"<<point1<<endl;
+	cout<<"El primer punto es"<<point2<<endl;
+	cout<<"El primer punto es"<<point3<<endl;
+	//cambiar el punto 2 por (9,8,-6)
+	point2.set_point(9,8,-6);
+	//despalzar point 1 en 3, -3, 7 y comprobar si es igual a point 2
+	point1.shiftX(3);
+	point1.shiftY(-3);
+	point1.shiftZ(7);
+	cout<<"El punto es"<<point1.equals(point2)<<endl;	
+	//desplazar point 1 en 6, 11, -13 y generando un point 4
+	point3D point4;
+	point1.translate(6,11,-13);
+	point4=point1;
+	cout<<"El punto es "<<point4.equals(point2)<<endl;
+	//distancias
+	cout<<"La distancia al centro del punto 3 es "<<point3.distanceOrigin()<<endl;
+	cout<<"La distancai entre el punto 1 y el punto 3 es "<<point1.distanceToPoint(point3)<<endl;
+	//producto escalar
+	cout<<"El producto escalar del punto 1 y el punto 2 es "<<point1.scalarProduct(point2)<<endl;
+	//comprobar si esta en la caja
+	cout<<"El punto 2"<<point2.inBox(-12,20,8,24,40,35)<<endl;
+	//comprobar si el punto 1 esta en la esfera
+	point3D center(1,2,5);
+	cout<<"El punto 1"<<point1.inSphere(center, 50);
+	return 0;
+}		
