@@ -1,0 +1,64 @@
+//Luis Angel Bustamante Torres
+//labt2.h
+
+#include<iostream>
+using namespace std;
+
+class Tanque{
+        //atributos
+        double contenido;
+    public:
+        static const int capacidad=3000; //se declara una variable constante y su ámbito es toda la clase 
+        Tanque(); //constructor
+        // metodos
+        double get_Contenido() const;
+        void agregar(double cantidad);
+        void sacar(double cantidad);
+        void sacaMitad();
+};
+
+//labt2.cpp
+
+#include"labt2.h"
+
+Tanque::Tanque(){
+    contenido = 0; //inicializa contenido a 0
+}
+
+double Tanque::get_Contenido() const {
+    return contenido; //retorna contenido
+}
+
+void Tanque::agregar(double cantidad){
+    if(contenido+cantidad < capacidad){ //comprueba que la suma es menor que la capacidad
+        contenido+=cantidad; //suma contenido y cantidad y se asigna a contenido 
+    }
+}
+
+void Tanque::sacar(double cantidad){
+    if(contenido-cantidad>=0){ //comprueba que la diferencia es mayor a 0
+        contenido-=cantidad; //resta contenido menos cantidad y se asigna a contenido
+    }
+}
+
+void Tanque::sacaMitad(){ 
+    contenido=contenido/2; //divide en 2 el contenido y se asigna asi mismo
+} 
+
+//main.cpp
+
+#include<iostream>
+#include"labt2.h"
+using namespace std;
+
+int main(){
+    Tanque t;
+    t.agregar(6000); //se agrega a contenido la cantidada de 100
+    cout<<t.get_Contenido()<<endl; //se imprime
+    while(t.get_Contenido()>1){ //el objeto llama a getContenido y lo averigau si es mayor a 1
+        t.sacaMitad(); //el objeto llama a sacaMitad para reducir el contenido a al mitad
+        cout<<t.get_Contenido()<<endl; //se imprime el contenido
+    }
+    return 0;
+}
+
